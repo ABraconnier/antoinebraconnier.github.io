@@ -9,6 +9,7 @@ title: Portfolio
       <h2><a href="{{ project.url }}">{{ project.name }}</a></h2>
       <h3>{{ project.label }}</h3>
       <p>{{ project.description | markdownify }}</p>
+      <p>{{ project.subdescription | markdownify }}</p>
     </li>
   {% endfor %}
 </ul>

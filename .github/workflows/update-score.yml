@@ -1,7 +1,9 @@
-name: Update High Score
+name: update-high-score
 on:
   repository_dispatch:
     types: [update-score]
+permissions:
+  contents: write
 jobs:
   update:
     runs-on: ubuntu-latest

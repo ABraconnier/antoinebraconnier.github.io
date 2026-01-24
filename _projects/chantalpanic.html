@@ -9,8 +9,36 @@ layout: pico-8
 ---
 <script>
 var pico8_gpio = new Array(128);
-var bestScoreName = "{{ site.data.best_scores.chantalpanic.name }}";
-var bestScoreAmount = "{{ site.data.best_scores.chantalpanic.score }}";
+let bestScoreName = "{{ site.data.best_scores.chantalpanic.name }}";
+let bestScoreAmount = "{{ site.data.best_scores.chantalpanic.score }}";
+
+async function submitScore(score, playerName) {
+  try {
+    const response = await fetch('https://score-updater.ant-braconnier.workers.dev', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        score: score,
+        player: playerName
+      })
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      console.log('Score submitted successfully!');
+      alert('High score submitted! 🎉');
+    } else {
+      console.error('Error:', result.error);
+      alert('Error: ' + result.error);
+    }
+  } catch (error) {
+    console.error('Failed to submit score:', error);
+    alert('Failed to submit score. Please try again.');
+  }
+}
 
 pico8_gpio[0] = bestScoreName.charCodeAt(0);
 pico8_gpio[1] = bestScoreName.charCodeAt(1);
@@ -19,7 +47,7 @@ pico8_gpio[3] = bestScoreAmount;
 
 setInterval(() => {
  if (pico8_gpio[3] != bestScoreAmount) {
-  console.log("updating score!")
- }
+  submitScore(pico8_gpio[3], String.fromCharCode(pico8_gpio[0], pico8_gpio[1], pico8_gpio[2]));
+}
 }, 1000);
 </script>

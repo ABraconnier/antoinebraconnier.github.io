@@ -17,9 +17,9 @@ jobs:
           # Use yq to safely write YAML (avoids injection)
           # Environment variables are safely passed and properly escaped
           yq eval -n \
-            "chantalpanic.score = env(SCORE) | \
-             chantalpanic.name = env(PLAYER) | \
-             chantalpanic.timestamp = env(TIMESTAMP)" \
+            '.chantalpanic.score = env(SCORE) |
+             .chantalpanic.name = env(PLAYER) |
+             .chantalpanic.timestamp = env(TIMESTAMP)' \
             > _data/best_scores.yml
       - name: Commit and push changes
         run: |

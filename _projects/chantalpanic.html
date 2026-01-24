@@ -7,3 +7,19 @@ subdescription: In this game, the user needs to  avoid the cages, the two evil t
 label: pico-8
 layout: pico-8
 ---
+<script>
+var pico8_gpio = new Array(128);
+var bestScoreName = "{{ site.data.best_scores.chantalpanic.name }}";
+var bestScoreAmount = "{{ site.data.best_scores.chantalpanic.score }}";
+
+pico8_gpio[0] = bestScoreName.charCodeAt(0);
+pico8_gpio[1] = bestScoreName.charCodeAt(1);
+pico8_gpio[2] = bestScoreName.charCodeAt(2);
+pico8_gpio[3] = bestScoreAmount;
+
+setInterval(() => {
+ if (pico8_gpio[3] != bestScoreAmount) {
+  console.log("updating score!")
+ }
+}, 1000);
+</script>

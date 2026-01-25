@@ -29,14 +29,12 @@ async function submitScore(score, playerName) {
 
     if (result.success) {
       console.log('Score submitted successfully!');
-      alert('High score submitted! 🎉');
+      alert('Bravo! 🎉');
     } else {
       console.error('Error:', result.error);
-      alert('Error: ' + result.error);
     }
   } catch (error) {
     console.error('Failed to submit score:', error);
-    alert('Failed to submit score. Please try again.');
   }
 }
 
@@ -47,7 +45,7 @@ pico8_gpio[3] = bestScoreAmount;
 
 setInterval(() => {
  if (pico8_gpio[3] != bestScoreAmount) {
-  // submitScore(pico8_gpio[3], String.fromCharCode(pico8_gpio[0], pico8_gpio[1], pico8_gpio[2]));
+  submitScore(pico8_gpio[3], String.fromCharCode(pico8_gpio[0], pico8_gpio[1], pico8_gpio[2]));
 }
 }, 1000);
 </script>

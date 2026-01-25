@@ -93,7 +93,7 @@ jobs:
               --title "🎮 High Score Update" \
               --body "**Score:** $SCORE | **Player:** $PLAYER | **Previous:** $OLD_SCORE" \
               --head score-updates \
-              --base main
+              --base master
           else
             # Update existing PR with comment
             PR_NUMBER=$(gh pr list --head score-updates --base main --json number --jq '.[0].number')

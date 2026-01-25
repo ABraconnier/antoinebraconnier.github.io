@@ -2,15 +2,53 @@ name: update-high-score
 on:
   repository_dispatch:
     types: [update-score]
+
 permissions:
   contents: write
+  pull-requests: write
+
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Get current high score
+        id: current_score
+        run: |
+          # Try to fetch the PR branch first
+          git fetch origin score-updates 2>/dev/null || true
+
+          # Check if score exists in PR branch (source of truth)
+          if git rev-parse --verify origin/score-updates >/dev/null 2>&1; then
+            # PR exists - read from PR branch
+            CURRENT=$(git show origin/score-updates:_data/best_scores.yml | yq eval '.chantalpanic.score')
+            echo "current=$CURRENT" >> $GITHUB_OUTPUT
+            echo "📊 Current score from PR: $CURRENT"
+          else
+            # No PR - read from main branch (or 0 if file doesn't exist)
+            CURRENT=$(yq eval '.chantalpanic.score' _data/best_scores.yml)
+            echo "current=$CURRENT" >> $GITHUB_OUTPUT
+            echo "📊 Current score from main: $CURRENT"
+          fi
+
+      - name: Check if new score is higher
+        id: check_score
+        env:
+          NEW_SCORE: ${{ github.event.client_payload.score }}
+          CURRENT_SCORE: ${{ steps.current_score.outputs.current }}
+        run: |
+          if [ "$NEW_SCORE" -gt "$CURRENT_SCORE" ]; then
+            echo "is_higher=true" >> $GITHUB_OUTPUT
+            echo "✅ New score ($NEW_SCORE) is higher than current ($CURRENT_SCORE)"
+          else
+            echo "is_higher=false" >> $GITHUB_OUTPUT
+            echo "❌ New score ($NEW_SCORE) is not higher than current ($CURRENT_SCORE)"
+          fi
+
       - name: Update score in YAML
+        if: steps.check_score.outputs.is_higher == 'true'
         env:
           SCORE: ${{ github.event.client_payload.score }}
           PLAYER: ${{ github.event.client_payload.player }}
@@ -23,16 +61,60 @@ jobs:
              .chantalpanic.name = env(PLAYER) |
              .chantalpanic.timestamp = env(TIMESTAMP)' \
             > _data/best_scores.yml
-      - name: Commit and push changes
+
+      - name: Create or update PR
+        if: steps.check_score.outputs.is_higher == 'true'
+        env:
+          SCORE: ${{ github.event.client_payload.score }}
+          PLAYER: ${{ github.event.client_payload.player }}
+          OLD_SCORE: ${{ steps.current_score.outputs.current }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add _data/best_scores.yml
 
-          # Only commit if there are changes
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
+          # Switch to score-updates branch (create if doesn't exist)
+          git fetch origin score-updates 2>/dev/null || true
+          git checkout -B score-updates
+
+          # Add and commit changes
+          git add _data/best_scores.yml
+          git commit -m "🎮 New high score: $SCORE by $PLAYER (previous: $OLD_SCORE)"
+
+          # Force push to update the branch
+          git push -f origin score-updates
+
+          # Check if PR exists
+          PR_EXISTS=$(gh pr list --head score-updates --base main --json number --jq length)
+
+          if [ "$PR_EXISTS" = "0" ]; then
+            # Create new PR
+            gh pr create \
+              --title "🎮 High Score Update" \
+              --body "## New High Score Submission
+
+**Score:** $SCORE
+**Player:** $PLAYER
+**Previous Best:** $OLD_SCORE
+**Improvement:** +$(($SCORE - $OLD_SCORE))
+
+---
+Review and merge when ready to update the leaderboard!" \
+              --head score-updates \
+              --base main
           else
-            git commit -m "🎮 Update high score: ${{ github.event.client_payload.score }} by ${{ github.event.client_payload.player }}"
-            git push
+            # Update existing PR with comment
+            PR_NUMBER=$(gh pr list --head score-updates --base main --json number --jq '.[0].number')
+            gh pr comment $PR_NUMBER --body "## 🆕 Score Updated!
+
+**New Score:** $SCORE
+**Player:** $PLAYER
+**Previous:** $OLD_SCORE
+**Improvement:** +$(($SCORE - $OLD_SCORE))"
           fi
+
+      - name: Score not high enough
+        if: steps.check_score.outputs.is_higher == 'false'
+        run: |
+          echo "Score ${{ github.event.client_payload.score }} was not higher than current best ${{ steps.current_score.outputs.current }}"
+          echo "No update needed."

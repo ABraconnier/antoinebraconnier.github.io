@@ -27,10 +27,10 @@ jobs:
             echo "current=$CURRENT" >> $GITHUB_OUTPUT
             echo "📊 Current score from PR: $CURRENT"
           else
-            # No PR - read from main branch (or 0 if file doesn't exist)
+            # No PR - read from master branch (or 0 if file doesn't exist)
             CURRENT=$(yq eval '.chantalpanic.score' _data/best_scores.yml)
             echo "current=$CURRENT" >> $GITHUB_OUTPUT
-            echo "📊 Current score from main: $CURRENT"
+            echo "📊 Current score from master: $CURRENT"
           fi
 
       - name: Check if new score is higher
@@ -85,7 +85,7 @@ jobs:
           git push -f origin score-updates
 
           # Check if PR exists
-          PR_EXISTS=$(gh pr list --head score-updates --base main --json number --jq length)
+          PR_EXISTS=$(gh pr list --head score-updates --base master --json number --jq length)
 
           if [ "$PR_EXISTS" = "0" ]; then
             # Create new PR

@@ -91,13 +91,13 @@ jobs:
             # Create new PR
             gh pr create \
               --title "🎮 High Score Update" \
-              --body "**Score:** $SCORE | **Player:** $PLAYER | **Previous:** $OLD_SCORE | **Improvement:** +$(($SCORE - $OLD_SCORE))" \
+              --body "**Score:** $SCORE | **Player:** $PLAYER | **Previous:** $OLD_SCORE" \
               --head score-updates \
               --base main
           else
             # Update existing PR with comment
             PR_NUMBER=$(gh pr list --head score-updates --base main --json number --jq '.[0].number')
-            gh pr comment $PR_NUMBER --body "## 🆕 Score Updated! | **New Score:** $SCORE | **Player:** $PLAYER | **Previous:** $OLD_SCORE
+            gh pr comment $PR_NUMBER --body "## 🆕 Score Updated! | **New Score:** $SCORE | **Player:** $PLAYER | **Previous:** $OLD_SCORE"
           fi
 
       - name: Score not high enough

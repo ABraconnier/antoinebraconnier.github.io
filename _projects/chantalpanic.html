@@ -10,7 +10,7 @@ layout: pico-8
 <script>
 var pico8_gpio = new Array(128);
 let bestScoreName = "{{ site.data.best_scores.chantalpanic.name }}";
-let bestScoreAmount = "{{ site.data.best_scores.chantalpanic.score }}";
+let bestScoreAmount = parseInt("{{ site.data.best_scores.chantalpanic.score }}");
 
 async function submitScore(score, playerName) {
   try {

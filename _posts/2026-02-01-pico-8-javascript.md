@@ -88,11 +88,9 @@ I modified `_layouts/pico-8.html` to allow individual game pages to inject their
 Find the closing `</script>` tag (after all the Pico-8 player code) and add the content mark right before the `<STYLE>` section:
 
 {% raw %}
-{% highlight html %}
   </script>
     {{content}}  <!-- Game-specific JavaScript goes here -->
   <STYLE TYPE="text/css">
-{% endhighlight %}
 {% endraw %}
 
 This placement is crucial - it ensures `pico8_gpio` is defined **before** the game starts running.

@@ -87,21 +87,15 @@ I modified `_layouts/pico-8.html` to allow individual game pages to inject their
 
 Find the closing `</script>` tag (after all the Pico-8 player code) and add `{{content}}` right before the `<STYLE>` section:
 
+{% raw %}
 {% highlight html %}
   </script>
     {{content}}  <!-- Game-specific JavaScript goes here -->
   <STYLE TYPE="text/css">
 {% endhighlight %}
+{% endraw %}
 
 This placement is crucial - it ensures `pico8_gpio` is defined **before** the game starts running.
-
-First I'm adding a liquid `content`to my pico-8 layout: I'm adding this content right below the script tag and before the opening `<STYLE>` tag
-
-{% raw %}
-  </script>
-    {{content}}
-  <STYLE TYPE="text/css">
-{% endraw %}
 
 
 ### Step 3: Inject Data from Jekyll

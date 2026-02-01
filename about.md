@@ -1,7 +1,6 @@
 ---
 title: About me
 ---
-# About me
 
 I'm a Ruby on Rails backend developer based in Paris, France.
 

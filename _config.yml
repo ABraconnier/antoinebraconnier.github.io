@@ -1,25 +1,9 @@
 collections:
   projects:
     output: true
-defaults:
-  - scope:
-      path: ""
-      type: "projects"
-    values:
-      layout: "project"
-  - scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: "post"
-  - scope:
-      path: ""
-    values:
-      layout: "default"
-markdown: kramdown
-highlighter: rouge
-kramdown:
-  syntax_highlighter: rouge
+theme: minima
+title: "Antoine Braconnier"
+description: "Personal page"
 plugins:
   - jekyll-feed
   - jekyll-sitemap

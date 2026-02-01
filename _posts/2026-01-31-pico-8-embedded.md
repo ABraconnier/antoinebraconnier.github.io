@@ -1,9 +1,16 @@
 ---
 title: "Embedding Pico-8 Games in Jekyll: Creating a Reusable Layout"
 excerpt: Here's how I transformed Pico-8's exported HTML into a reusable Jekyll layout
+layout: post
 ---
 
 While building a portfolio for this page, the first thing I wanted to show was a very small pico-8 game I made for my two lovely nephews, showcasing my guinea pig Chantal, in an adventure called: "Chantal Panic".
+
+<div style="text-align: center; margin: 30px 0;">
+  <img src="{{ '/assets/images/chantal.jpg' | relative_url }}" alt="Chantal the guinea pig" style="border-radius: 8px; width: 180px;">
+  <p style="margin-top: 10px; font-style: italic; color: #666;">isn't she cute?</p>
+</div>
+
 
 I needed a clean way to embed them without duplicating code for each game. Here's how I transformed Pico-8's exported HTML into a reusable Jekyll layout.
 

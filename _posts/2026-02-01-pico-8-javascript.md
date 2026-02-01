@@ -97,11 +97,13 @@ This placement is crucial - it ensures `pico8_gpio` is defined **before** the ga
 
 First I'm adding a liquid `content`to my pico-8 layout: I'm adding this content right below the script tag and before the opening `<STYLE>` tag
 
+{% raw %}
 {% highlight html %}
   </script>
     {{content}}
   <STYLE TYPE="text/css">
 {% endhighlight %}
+{% endraw %}
 
 
 ### Step 3: Inject Data from Jekyll

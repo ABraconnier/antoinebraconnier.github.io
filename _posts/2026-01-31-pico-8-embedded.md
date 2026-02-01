@@ -77,7 +77,7 @@ Now I can create game pages in  `_projects/`  with minimal code:
 ---
   short_name: chantalpanic
   name: Chantal Panic!
-  filepath: chantalpanic
+  filepath: /assets/js/chantalpanic
   description: This is a game made for my nephews, in honor of my guinea pig named Chantal.
   subdescription: In this game, the user needs to  avoid the cages, the two evil twins and collect carrots.
   label: pico-8
@@ -89,15 +89,16 @@ That's it! The  `filepath`  parameter tells the layout which  `.js`  file to loa
 
 ### Step 4: Organizing Assets
 
-For now I keep my cart  `.js` inside of the projects folder, but I could actually use a dedicated folder, as long as I
-remember to update the `filepath` parameter:
+I put my cart  `.js` inside of the assets folder. If I want to change the file path, I must rember to update the `filepath` parameter:
 
 {% highlight markdown %}
   └── _projects/
       ├── chantal-panic.md
       └── another-game.md
-      ├── chantal-panic.js
-      ├── another-game.js
+  └── assets/
+      └── js/
+          ├── chantal-panic.js
+          └── another-game.js
 {% endhighlight %}
 
 ## Why This Works

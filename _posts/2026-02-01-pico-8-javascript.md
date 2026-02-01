@@ -85,7 +85,7 @@ Now that my game is "plugged" to the GPIO, once exported to HTML, I can inject t
 
 I modified `_layouts/pico-8.html` to allow individual game pages to inject their GPIO setup.
 
-Find the closing `</script>` tag (after all the Pico-8 player code) and add `{{content}}` right before the `<STYLE>` section:
+Find the closing `</script>` tag (after all the Pico-8 player code) and add the content mark right before the `<STYLE>` section:
 
 {% raw %}
 {% highlight html %}

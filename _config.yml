@@ -3,7 +3,18 @@ collections:
     output: true
 theme: minima
 title: "Antoine Braconnier"
-description: "Personal page"
+tagline: "My personal page"
+description: "Where I talk about my projects, my thoughts and my guinea pig"
+url: "https://www.antoinebraconnier.com"
+author: "Antoine Braconnier"
+email: ant.braconnier@gmail.com
+social:
+  name: Antoine Braconnier
+  links:
+    - https://www.linkedin.com/in/antoine-braconnier1991
+    - https://github.com/ABraconnier
+github_username:  ABraconnier
+linkedin_username: "antoine-braconnier1991"
 plugins:
   - jekyll-feed
   - jekyll-sitemap

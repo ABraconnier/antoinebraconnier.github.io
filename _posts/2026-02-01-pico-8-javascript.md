@@ -99,10 +99,11 @@ Now in my game page (`_projects/chantal-panic.md`), I add JavaScript that reads 
   // Create the magic array that Pico-8 will read from
   var pico8_gpio = new Array(128);
 
+  {% raw %}
   // Fetch score from Jekyll data (with defaults if file doesn't exist yet)
   let bestScoreName = "{{ site.data.best_scores.chantalpanic.name | default: 'AAA' }}";
   let bestScoreAmount = parseInt("{{ site.data.best_scores.chantalpanic.score | default: 0 }}");
-
+  {% endraw %}
   // Convert the name into bytes (ASCII character codes)
   pico8_gpio[0] = bestScoreName.charCodeAt(0);  // First letter -> GPIO pin 0
   pico8_gpio[1] = bestScoreName.charCodeAt(1);  // Second letter -> GPIO pin 1
@@ -112,7 +113,9 @@ Now in my game page (`_projects/chantal-panic.md`), I add JavaScript that reads 
 {% endhighlight %}
 
 **How it works:**
+{% raw %}
 1. Jekyll processes the template and injects `{{ site.data.best_scores.chantalpanic.name }}`
+{% endraw %}
 2. JavaScript converts the name "BOB" to bytes: `[66, 79, 66]`
 3. Pico-8 reads these bytes with `peek()` and converts them back to text
 

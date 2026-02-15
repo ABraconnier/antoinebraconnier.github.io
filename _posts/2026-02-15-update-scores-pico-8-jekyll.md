@@ -479,27 +479,22 @@ So we need to go to repo Settings → Actions → General → Workflow permissio
          └───────────────────────────────────┘
 ```
 
-## What I Learned
+## Takeaways
 
-**Static sites can be dynamic** - with the right architecture. The key is using serverless functions as a secure bridge between client and backend.
+Wow, what a journey! This was not that easy to do after all. What can we learn from this?
 
-**Security is layered** - validation happens at multiple points:
+**Static sites can be dynamic** : with the right architecture. The key is using serverless functions as a secure bridge between client and backend.
+
+**Security is layered** : validation happens at multiple points:
 - Worker validates format
 - GitHub Actions validates score is higher
-- Manual PR review is final check
+- Manual PR review as the final check
 
-**Rate limiting is essential** - without it, someone could spam your workflow and exhaust my GitHub Actions minutes.
+**Rate limiting is essential** : without it, someone could spam your workflow and exhaust my GitHub Actions minutes.
 
-**Being pragmatic is underrated** - a simple `setInterval()` is the most pragmatic solution, as well as a simple PR review mechanism!
+**Being pragmatic is the way to go** : a simple `setInterval()` is the most pragmatic solution, as well as a basic PR review mechanism!
 
-## Potential Improvements
-
-- **Webhooks**: Have GitHub notify my site when PR is merged (faster updates)
-- **Multiple games**: Generalize the system to handle different games
-- **Leaderboard**: Store top 10 scores instead of just #1
-- **Replay protection**: Prevent submitting the same score twice
-
-But for now, this works perfectly for my nephews' guinea pig game!
+So with all this implementation, we have a complete flow of score updates triggered from a pico-8 game embedded in a Jekyll site: it updates the YAML file via a PR posted from a github action workflow, triggered by a serverless worker that our Jekyll site calls everytime it sees a change in the GPIO array. I think it's a pretty cool system!
 
 ## Resources
 

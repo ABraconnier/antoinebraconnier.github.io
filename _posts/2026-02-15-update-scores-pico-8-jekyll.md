@@ -261,7 +261,7 @@ function jsonResponse(data, status, env) {
 
 **Step 4: Create KV namespace for rate limiting**
 
-For the rate limiting, we use Cloudflare KV (Key-Value store). KV is a simple persistent database: store data as key→value pairs. We use it to remember when each IP last submitted (prevent spam) So we need to create a KV namespace to store the value under the format : `'ratelimit:123.45.67.89': '1737732000000'`.
+For the rate limiting, we use Cloudflare KV (Key-Value store). KV is a simple persistent database: it stores data as key→value pairs. We use it to remember when each IP last submitted (prevent spam) So we need to create a KV namespace to store the value under the format : `'ratelimit:123.45.67.89': '1737732000000'`.
 
 ```bash
 wrangler kv:namespace create "SCORE_KV"
@@ -408,12 +408,13 @@ jobs:
 1. **Gets triggered** by the Cloudflare Worker via `repository_dispatch`
 2. **Checks current score** from the PR branch (if exists) or master
 3. **Only updates if higher** - prevents lowering scores
-4. **Creates/updates a PR** - you review before merging
+4. **Creates/updates a PR** - to review before merging!
 5. **Force-pushes** - each new score replaces the previous PR content
 
 ### Enable PR Creation
 
-Go to your repo Settings → Actions → General → Workflow permissions:
+To allow github actions to create and approve pull requests, you need to give it the right permissions.
+So we need to go to repo Settings → Actions → General → Workflow permissions:
 - ☑ Allow GitHub Actions to create and approve pull requests
 
 ## The Complete Flow Visualized
@@ -462,12 +463,12 @@ Go to your repo Settings → Actions → General → Workflow permissions:
                      ▼
          ┌───────────────────────────────────┐
          │   Pull Request Created            │
-         │   "🎮 New high score: 1234 by BOB"│
+         │                                   │
          └───────────┬───────────────────────┘
                      │
                      ▼
          ┌───────────────────────────────────┐
-         │   You Review & Merge              │
+         │   Review & Merge                  │
          │   (Manual approval)               │
          └───────────┬───────────────────────┘
                      │
@@ -477,22 +478,6 @@ Go to your repo Settings → Actions → General → Workflow permissions:
          │   New score live on site!         │
          └───────────────────────────────────┘
 ```
-
-## Why This Architecture?
-
-**Why not call GitHub API directly from the browser?**
-- Would expose your authentication token
-- Anyone could submit fake scores or delete your repo
-
-**Why a PR instead of direct commit?**
-- You review scores before they go live
-- Prevents malicious or fake submissions
-- Acts as an audit trail
-
-**Why Cloudflare Workers instead of AWS Lambda or others?**
-- Free tier is generous (100k requests/day)
-- Global edge network = fast response times
-- Simple deployment with Wrangler CLI
 
 ## What I Learned
 
@@ -505,7 +490,7 @@ Go to your repo Settings → Actions → General → Workflow permissions:
 
 **Rate limiting is essential** - without it, someone could spam your workflow and exhaust my GitHub Actions minutes.
 
-**Being pragmatic is underrated** - a simple `setInterval()` is the most pragmatic solution, as well as a simple PR review mechanism
+**Being pragmatic is underrated** - a simple `setInterval()` is the most pragmatic solution, as well as a simple PR review mechanism!
 
 ## Potential Improvements
 

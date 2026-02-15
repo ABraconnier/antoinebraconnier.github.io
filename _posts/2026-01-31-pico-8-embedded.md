@@ -1,5 +1,5 @@
 ---
-title: "Embedding Pico-8 Games in Jekyll: Creating a Reusable Layout"
+title: "Embedding Pico-8 games in Jekyll: creating a reusable layout"
 description: Here's how I transformed Pico-8's exported HTML into a reusable Jekyll layout
 image: /assets/images/chantal.jpg
 layout: post

@@ -193,7 +193,7 @@ The -H flag adds the Host header manually: necessary because kamal-proxy routes 
 
 ## Step 6: buying a domain
 
-I did that on [cloudflare registrar](https://domains.cloudflare.com). It's pretty easy to use. Once you've bought your domain do not add any CNAME, A or AAAA record. For now, you have a domain, a server running, but you still need to make a bridge between the Pi and the internet, so that the DNS knows where to send the traffic whe a user hits your domain.
+I did that on [cloudflare registrar](https://domains.cloudflare.com). It's pretty easy to use. Once you've bought your domain do not add any CNAME, A or AAAA record. For now, you have a domain, a server running, but you still need to make a bridge between the Pi and the internet, so that the DNS knows where to send the traffic when a user hits your domain.
 
 ## Step 7: Public access with Cloudflare Tunnel
 

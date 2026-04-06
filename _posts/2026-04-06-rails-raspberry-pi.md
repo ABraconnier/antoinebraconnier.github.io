@@ -62,7 +62,7 @@ While you're at it, set up an SSH alias on your computer for convenience. In `~/
 ```
 Host pi
   HostName server.local
-  User pi
+  User username
   IdentityFile ~/.ssh/id_ed25519
 ```
 
@@ -122,7 +122,9 @@ You'll need also secrets : the first one would be your rails master key (or `con
 Never put raw credentials in `.kamal/secrets`. Instead, read them from your environment or a password manager. I use KeePassXC:
 
 ```bash
-KAMAL_REGISTRY_PASSWORD=$(keepassxc-cli show -a Password /path/to/base.kdbx KAMAL_REGISTRY_PASSWORD)
+KAMAL_REGISTRY_PASSWORD=$(keepassxc-cli show /path/to/base.kdbx -a Password  KAMAL_REGISTRY_PASSWORD)
+
+RAILS_MASTER_KEY=$(keepassxc-cli show /path/to/base.kdbx -a Password RAILS_MASTER_KEY)
 ```
 
 Also, you'll need to check your local IP of the Pi. Type `hostname -I` via SSH and it should be the first one popping. We'll call ours `123.456.7.890`.
@@ -145,7 +147,7 @@ proxy:
 
 # Credentials for your image host.
 registry:
-  username: abraconnier # your dockerhub username
+  username: dockerhubuser # your dockerhub username
   # Always use an access token rather than real password when possible.
   password:
     - KAMAL_REGISTRY_PASSWORD
@@ -197,7 +199,7 @@ I did that on [cloudflare registrar](https://domains.cloudflare.com). It's prett
 
 ### Why not port forwarding?
 
-My first instinct was to open port 80 on my wifi box and point a DNS A record to my public IP. However, I wasn't super comfortable with having my home IP exposed on the internet.
+My first instinct was to open port 80 on my wifi box and point a DNS A record to my public IP. However, I wasn't super comfortable with having my home IP exposed on the internet, and I didn't want to deal with DDNS: my router changes the would have changed its IP from time to time, so I would have needed to make a script to update my DNS record every time.
 
 So the solution is to create a direct tunnel between the Pi and the internet: you have a daemon running on the Pi that makes a direct connection to Cloudflare, and Cloudflare handles the rest.
 

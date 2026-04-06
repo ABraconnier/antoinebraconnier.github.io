@@ -207,7 +207,7 @@ Go to the cloudflare dashboard and create a new tunnel.
 
 <div style="text-align: center; margin: 30px 0;">
   <img src="{{ '/assets/images/cloudflare-tunnel.png' | relative_url }}" alt="Tunnel dashboard">
-  <p style="margin-top: 10px; font-style: italic; color: #666;">click on "other" to display the full list. You'll find the OS we need in that list</p>
+  <p style="margin-top: 10px; font-style: italic; color: #666;">the cloudflare tunnel dashboard</p>
 </div>
 
 Follow the instructions and install cloudflared as a service.
@@ -265,7 +265,7 @@ Let's have a look at how our small app architecture will look like:
 
 <div style="text-align: center; margin: 30px 0;">
   <img src="{{ '/assets/images/raspberry-pi-architecture.png' | relative_url }}" alt="Our app architecture">
-  <p style="margin-top: 10px; font-style: italic; color: #666;">the full architecture is here</p>
+  <p style="margin-top: 10px; font-style: italic; color: #666;">the infra architecture</p>
 </div>
 
 Let's explain the different components :

@@ -21,7 +21,7 @@ This is the story of how I did it!
 
 ## ⚠️ A word of warning before you start
 
-This setup is for **fun and learning**. It is not production-ready. The Pi Zero 2W has 512MB of RAM — enough for a single user, but it will struggle under any real load. If you're building something serious, use a VPS.
+This setup is for **fun and learning**. It is not production-ready. The Pi Zero 2W has 512MB of RAM: enough for a single user, but it will struggle under any real load. If you're building something serious, use a VPS.
 
 That said, if you want to learn Kamal, Docker, and Cloudflare Tunnel hands-on, this is a fantastic playground.
 
@@ -179,7 +179,7 @@ ssh:
 ## Step 5: Deploy
 
 ```bash
-kamal setup   # First time only — installs Docker, sets up volumes, pulls kamal-proxy
+kamal setup   # First time only: installs Docker, sets up volumes, pulls kamal-proxy
 kamal deploy  # Subsequent deploys
 ```
 
@@ -189,7 +189,7 @@ Now, our app is running on the Pi! To test it, just run this on a computer runni
 curl -H "Host: your-app.com" 123.456.7.890
 ```
 
-The -H flag adds the Host header manually — necessary because kamal-proxy routes requests based on the hostname, not the IP address.
+The -H flag adds the Host header manually: necessary because kamal-proxy routes requests based on the hostname, not the IP address.
 
 ## Step 6: buying a domain
 
@@ -235,9 +235,9 @@ Then you can go on your tunnel page, add a route, click on "published applicatio
 
 **Why `172.17.0.1` and not `localhost`?**
 
-This tripped me up. `cloudflared` runs as a normal process on the Pi. Kamal-proxy runs inside Docker, which has its own isolated network. From `cloudflared`'s perspective, `localhost` is the Pi's own process space — kamal-proxy isn't there.
+This tripped me up. `cloudflared` runs as a normal process on the Pi. Kamal-proxy runs inside Docker, which has its own isolated network. From `cloudflared`'s perspective, `localhost` is the Pi's own process space. Kamal-proxy isn't there.
 
-`172.17.0.1` is the Docker bridge gateway — the fixed IP that lets processes on the Pi reach containers running in Docker. It's not accessible from outside the Pi, so it's just as secure as localhost, just reachable from the right context.
+`172.17.0.1` is the Docker bridge gateway, the fixed IP that lets processes on the Pi reach containers running in Docker. It's not accessible from outside the Pi, so it's just as secure as localhost, just reachable from the right context.
 
 ### DNS
 
@@ -276,16 +276,16 @@ Let's explain the different components :
 When you run `kamal deploy`, your Mac builds a Docker image compiled for the arm64 architecture (required for the Pi Zero 2W) and pushes it to Docker Hub.
 
 2. **Docker Hub → Pi (pull)**
-The Docker daemon on the Pi pulls the new image from Docker Hub. This happens automatically as part of the deploy — you don't need to SSH into the Pi manually.
+The Docker daemon on the Pi pulls the new image from Docker Hub. This happens automatically as part of the deploy: you don't need to SSH into the Pi manually.
 
 3. **User browser → Cloudflare (HTTPS)**
 The user types your domain in their browser. The request hits Cloudflare over HTTPS. Cloudflare handles three things here: SSL termination (decrypts the traffic), hides your home IP address, and provides DDoS protection.
 
 4. **Cloudflare → cloudflared (HTTP via tunnel)**
-Cloudflare forwards the decrypted request as plain HTTP through the Cloudflare Tunnel to the cloudflared daemon running on the Pi. No ports need to be open on your router — cloudflared maintains a persistent outbound connection to Cloudflare.
+Cloudflare forwards the decrypted request as plain HTTP through the Cloudflare Tunnel to the cloudflared daemon running on the Pi. No ports need to be open on your router: cloudflared maintains a persistent outbound connection to Cloudflare.
 
 5. **cloudflared → kamal-proxy (172.17.0.1:80)**
-cloudflared forwards the request to 172.17.0.1:80 — the Docker bridge gateway IP. This is the address that allows a normal process on the Pi to reach containers running inside Docker. localhost doesn't work here because cloudflared and Docker live in separate network namespaces.
+cloudflared forwards the request to 172.17.0.1:80, the Docker bridge gateway IP. This is the address that allows a normal process on the Pi to reach containers running inside Docker. localhost doesn't work here because cloudflared and Docker live in separate network namespaces.
 
 6. **kamal-proxy → Rails/Puma (port 3000)**
 kamal-proxy receives the request, inspects the Host header, and forwards it to the Rails container on port 3000. It also manages zero-downtime deploys by keeping the old container alive until the new one is healthy.

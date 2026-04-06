@@ -37,7 +37,7 @@ Use **Raspberry Pi Imager** with you SD card.
 You need to select as an OS the **Raspberry Pi OS Lite**, not the full version: we do not need a desktop environment, since we'll only access the Pi through SSH.
 
 <div style="text-align: center; margin: 30px 0;">
-  <img src="{{ '/assets/images/pi-imager.jpg' | relative_url }}" alt="Raspberry Pi Imager" style="border-radius: 8px; width: 180px;">
+  <img src="{{ '/assets/images/pi-imager.png' | relative_url }}" alt="Raspberry Pi Imager" style="border-radius: 8px; width: 180px;">
   <p style="margin-top: 10px; font-style: italic; color: #666;">click on "other" to display the full list. You'll find the OS we need in that list</p>
 </div>
 
@@ -206,7 +206,7 @@ So the solution is to create a direct tunnel between the Pi and the internet: yo
 Go to the cloudflare dashboard and create a new tunnel.
 
 <div style="text-align: center; margin: 30px 0;">
-  <img src="{{ '/assets/images/cloudflare-tunnel.jpg' | relative_url }}" alt="Tunnel dashboard" style="border-radius: 8px; width: 180px;">
+  <img src="{{ '/assets/images/cloudflare-tunnel.png' | relative_url }}" alt="Tunnel dashboard" style="border-radius: 8px; width: 180px;">
   <p style="margin-top: 10px; font-style: italic; color: #666;">click on "other" to display the full list. You'll find the OS we need in that list</p>
 </div>
 
@@ -264,7 +264,7 @@ kamal shell
 Let's have a look at how our small app architecture will look like:
 
 <div style="text-align: center; margin: 30px 0;">
-  <img src="{{ '/assets/images/raspberry-pi-architecture.jpg' | relative_url }}" alt="Our app architecture" style="border-radius: 8px; width: 180px;">
+  <img src="{{ '/assets/images/raspberry-pi-architecture.png' | relative_url }}" alt="Our app architecture" style="border-radius: 8px; width: 180px;">
   <p style="margin-top: 10px; font-style: italic; color: #666;">isn't she cute?</p>
 </div>
 
